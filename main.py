@@ -16,7 +16,7 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.llms import OpenAI
 import pandas as pd
 
-st.set_page_config(layout="centered", page_title="Youtube Question Answering Bot")
+st.set_page_config(layout="centered", page_title="Youtube QnA")
 image = Image.open('GeekAvenue_logo.png')
  
 
@@ -50,7 +50,7 @@ def chunk_clips(transcription, clip_size):
   return [texts,sources]
 
 
-st.header("Website QnA")
+st.header("Youtube Question Answering Bot")
 state = st.session_state
 site = st.text_input("Enter your URL here")
 if st.button("Build Model"):
