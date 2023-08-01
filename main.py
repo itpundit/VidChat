@@ -95,7 +95,7 @@ if st.button("Build Model"):
       st.write(str(site) + " starting to crawl..")
      
       # Video to audio
-      video_URL = 'https://www.youtube.com/watch?v=oG7uCemfJgU'
+      video_URL = site
       destination = "."
       final_filename = "Geek_avenue"
       extract_and_save_audio(video_URL, destination, final_filename)
