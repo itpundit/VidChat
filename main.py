@@ -81,7 +81,7 @@ if st.button("Build Model"):
     st.info(f"""Enter Website to Build QnA Bot""")
   elif site:
 
-    st.video(site, format="video/mp4", start_time=0)
+    
    
     st.write(str(site) + " starting to crawl..")
     try:
@@ -162,14 +162,18 @@ if st.button("Build Model"):
 if site and ("crawling" in state):
       st.header("Ask your data")
       model = st.session_state['model']
+      site = st.session_state['site']
+      st.video(site, format="video/mp4", start_time=0)
       user_q = st.text_input("Enter your questions here")
       if st.button("Get Response"):
         try:
           with st.spinner("Model is working on it..."):
 #             st.write(model)
-            result = model({"query":user_q}, return_only_outputs=True)
+            result = model({"question":query}, return_only_outputs=True)
             st.subheader('Your response:')
-            st.write(result["result"])
+            st.write(result["answer"])
+            st.subheader('Sources:')
+            st.write(result["sources"])
         except Exception as e:
           st.error(f"An error occurred: {e}")
           st.error('Oops, the GPT response resulted in an error :( Please try again with a different question.')
