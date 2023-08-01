@@ -106,7 +106,7 @@ if st.button("Build Model"):
       st.session_state['model'] = model
       st.session_state['site'] = site
 
-    except SyntaxError as e:
+    except Exception as e:
               st.error(f"An error occurred: {e}")
               st.error('Oops, crawling resulted in an error :( Please try again with a different URL.')
      
