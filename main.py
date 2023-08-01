@@ -103,7 +103,8 @@ if st.button("Build Model"):
       # run the whisper model
       audio_file = "Geek_avenue.mp3"
       my_bar.progress(50, text="Building Vector DB.")
-      result = whisper_model.transcribe(audio_file)
+      result = whisper_model.transcribe(audio_file, fp16=False, language='English')
+     
       transcription = pd.DataFrame(result['segments'])
 
       chunks = chunk_clips(transcription, 50)
@@ -120,8 +121,8 @@ if st.button("Build Model"):
       
       retriever = vStore.as_retriever()
       retriever.search_kwargs = {'k':2}
-
-      model = RetrievalQAWithSourcesChain.from_chain_type(llm=OpenAI(), chain_type="stuff", retriever=retriever)
+      llm = OpenAI(model_name=model_name, openai_api_key = st.secrets["openai_api_key"])
+      model = RetrievalQAWithSourcesChain.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
      
       # crawl_df = pd.read_json('simp.jl', lines=True)
       # st.write(len(crawl_df))
