@@ -38,6 +38,8 @@ if st.button("Build Model"):
   if site is None:
     st.info(f"""Enter Website to Build QnA Bot""")
   elif site:
+
+    st.video(site, format="video/mp4", start_time=0)
    
     st.write(str(site) + " starting to crawl..")
     try:
