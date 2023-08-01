@@ -169,7 +169,7 @@ if site and ("crawling" in state):
         try:
           with st.spinner("Model is working on it..."):
 #             st.write(model)
-            result = model({"question":query}, return_only_outputs=True)
+            result = model({"question":user_q}, return_only_outputs=True)
             st.subheader('Your response:')
             st.write(result["answer"])
             st.subheader('Sources:')
