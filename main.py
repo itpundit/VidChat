@@ -15,30 +15,8 @@ from langchain.embeddings.openai import OpenAIEmbeddings
 from langchain.llms import OpenAI
 import pandas as pd
 
-
-
-
-
-# from PIL import Image
-# import os
-# # import langchain
-# # from langchain.text_splitter import RecursiveCharacterTextSplitter
-# # from langchain.embeddings.openai import OpenAIEmbeddings
-# from langchain.vectorstores import Chroma
-# # from langchain import OpenAI, VectorDBQA
-# # from langchain.chains import RetrievalQAWithSourcesChain
-# # import PyPDF2
-# import advertools as adv
-# from advertools import crawl
-# import pandas as pd
-# from langchain.document_loaders import DataFrameLoader
-# from langchain.text_splitter import CharacterTextSplitter,RecursiveCharacterTextSplitter
-# from langchain import OpenAI, VectorDBQA
-# from langchain.embeddings.openai import OpenAIEmbeddings
-
-
-st.set_page_config(layout="centered", page_title="Website QnA")
-# image = Image.open('GeekAvenue_logo.png')
+st.set_page_config(layout="centered", page_title="Youtube Question Answering Bot")
+image = Image.open('GeekAvenue_logo.png')
  
 
 col1, mid, col2 = st.columns([1,2,20])
