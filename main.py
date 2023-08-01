@@ -17,9 +17,10 @@ from langchain.llms import OpenAI
 import pandas as pd
 
 st.set_page_config(layout="centered", page_title="Youtube QnA")
+
+#header of the application
 image = Image.open('GeekAvenue_logo.png')
  
-
 col1, mid, col2 = st.columns([1,2,20])
 with col1:
     st.image(image, width=80)
@@ -49,7 +50,7 @@ def chunk_clips(transcription, clip_size):
 
   return [texts,sources]
 
-
+#App title
 st.header("Youtube Question Answering Bot")
 state = st.session_state
 site = st.text_input("Enter your URL here")
@@ -57,15 +58,12 @@ if st.button("Build Model"):
   
  
   if site is None:
-    st.info(f"""Enter Website to Build QnA Bot""")
+    st.info(f"""Enter URL to Build QnA Bot""")
   elif site:
-
-    
-   
     st.write(str(site) + " starting to crawl..")
     try:
 
-      my_bar = st.progress(0, text="Crawling in progress. Please wait.")
+      my_bar = st.progress(0, text="Fetching the video. Please wait.")
       # Set the device
       device = "cuda" if torch.cuda.is_available() else "cpu"
       
@@ -81,7 +79,7 @@ if st.button("Build Model"):
 
       # run the whisper model
       audio_file = "Geek_avenue.mp3"
-      my_bar.progress(50, text="Building Vector DB.")
+      my_bar.progress(50, text="Transcribing the video.")
       result = whisper_model.transcribe(audio_file, fp16=False, language='English')
      
       transcription = pd.DataFrame(result['segments'])
@@ -91,7 +89,7 @@ if st.button("Build Model"):
       sources = chunks[1]
 
 
-
+      my_bar.progress(75, text="Building QnA model.")
       embeddings = OpenAIEmbeddings(openai_api_key = st.secrets["openai_api_key"])
       #vstore with metadata. Here we will store page numbers.
       vStore = Chroma.from_texts(documents, embeddings, metadatas=[{"source": s} for s in sources])
@@ -102,33 +100,7 @@ if st.button("Build Model"):
       retriever.search_kwargs = {'k':2}
       llm = OpenAI(model_name=model_name, openai_api_key = st.secrets["openai_api_key"])
       model = RetrievalQAWithSourcesChain.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
-     
-      # crawl_df = pd.read_json('simp.jl', lines=True)
-      # st.write(len(crawl_df))
-      # crawl_df = crawl_df[['body_text']]
-      # my_bar.progress(50, text="Building Vector DB.")
-      # st.write(crawl_df)
-
-      #load df to langchain
-      # loader = DataFrameLoader(crawl_df, page_content_column="body_text")
-      # docs = loader.load()
-
-      # #chunking
-      # text_splitter = RecursiveCharacterTextSplitter(
-      # chunk_size=1000, chunk_overlap=0, separators=[" ", ",", "\n"]
-      # )
-      # doc_texts = text_splitter.split_documents(docs)
-
-
-      #extract embeddings and build QnA Model
-      # openAI_embeddings = OpenAIEmbeddings(openai_api_key = st.secrets["openai_api_key"])
-      # vStore = Chroma.from_documents(doc_texts, openAI_embeddings)
-
-      # Initialize VectorDBQA Chain from LangChain
-      #deciding model
-      # model_name = "gpt-3.5-turbo"
-      # llm = OpenAI(model_name=model_name, openai_api_key = st.secrets["openai_api_key"])
-      # model = VectorDBQA.from_chain_type(llm=llm, chain_type="stuff", vectorstore=vStore)
+  
       my_bar.progress(100, text="Model is ready.")
       st.session_state['crawling'] = True
       st.session_state['model'] = model
