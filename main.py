@@ -60,7 +60,7 @@ if st.button("Build Model"):
   if site is None:
     st.info(f"""Enter URL to Build QnA Bot""")
   elif site:
-    st.write(str(site) + " is processing..")
+    
     try:
 
       my_bar = st.progress(0, text="Fetching the video. Please wait.")
