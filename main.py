@@ -19,7 +19,7 @@ import pandas as pd
 st.set_page_config(layout="centered", page_title="Youtube QnA")
 
 #header of the application
-image = Image.open('thecosmo.png')
+image = Image.open('thecosmo.PNG')
  
 col1, mid, col2 = st.columns([1,2,20])
 with col1:
