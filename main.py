@@ -90,7 +90,7 @@ if st.button("Build Model"):
 
 
       my_bar.progress(75, text="Building QnA model.")
-      embeddings = HuggingFaceEmbeddings(huggingfacehub_api_token = st.secrets["hf_api_key"])
+      embeddings = HuggingFaceEmbeddings()
       #vstore with metadata. Here we will store page numbers.
       vStore = Chroma.from_texts(documents, embeddings, metadatas=[{"source": s} for s in sources])
       #deciding model
