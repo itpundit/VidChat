@@ -12,8 +12,8 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.document_loaders import DataFrameLoader
 from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQAWithSourcesChain
-from langchain.embeddings.openai import OpenAIEmbeddings
-from langchain.llms import OpenAI
+from langchain.embeddings.openai import HuggingFaceEmbeddings
+from langchain import HuggingFaceHub
 import pandas as pd
 
 st.set_page_config(layout="centered", page_title="Youtube QnA")
@@ -90,15 +90,15 @@ if st.button("Build Model"):
 
 
       my_bar.progress(75, text="Building QnA model.")
-      embeddings = OpenAIEmbeddings(openai_api_key = st.secrets["openai_api_key"])
+      embeddings = HuggingFaceEmbeddings(huggingfacehub_api_token = st.secrets["hf_api_key"])
       #vstore with metadata. Here we will store page numbers.
       vStore = Chroma.from_texts(documents, embeddings, metadatas=[{"source": s} for s in sources])
       #deciding model
-      model_name = "gpt-3.5-turbo"
+      model_name = "tiiuae/falcon-7b"
       
       retriever = vStore.as_retriever()
       retriever.search_kwargs = {'k':2}
-      llm = OpenAI(model_name=model_name, openai_api_key = st.secrets["openai_api_key"])
+      llm = HuggingFaceHub(repo_id=model_name, huggingfacehub_api_token = st.secrets["hf_api_key"])
       model = RetrievalQAWithSourcesChain.from_chain_type(llm=llm, chain_type="stuff", retriever=retriever)
   
       my_bar.progress(100, text="Model is ready.")
