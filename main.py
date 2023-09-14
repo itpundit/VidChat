@@ -12,7 +12,7 @@ from langchain.text_splitter import CharacterTextSplitter
 from langchain.document_loaders import DataFrameLoader
 from langchain.vectorstores import Chroma
 from langchain.chains import RetrievalQAWithSourcesChain
-from langchain.embeddings.openai import HuggingFaceEmbeddings
+from langchain.embeddings import HuggingFaceEmbeddings
 from langchain import HuggingFaceHub
 import pandas as pd
 
